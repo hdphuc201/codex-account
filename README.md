@@ -1,4 +1,3 @@
-
 <!-- markdownlint-disable no-inline-html -->
 
 <p align="center">
