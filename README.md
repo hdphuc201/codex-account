@@ -18,6 +18,8 @@ This utility keeps named snapshots of authenticated accounts so you can move bet
 
 ## Installation
 
+### macOS / Linux
+
 ```sh
 # Clone the repository into Codex's config area
 git clone https://github.com/hdphuc201/codex-account ~/.codex/.codex-account
@@ -30,6 +32,37 @@ ln -sfn ~/.codex/.codex-account/codex-account.sh ~/.local/bin/codex-account
 > Make sure `~/.local/bin` is on your `PATH`.
 > Otherwise, the `codex-account` command will not be available after creating the
 > symlink.
+
+### Windows
+
+This project is implemented as a Bash script. On Windows, use one of these:
+
+- Git Bash from Git for Windows
+- WSL
+
+To make `codex-account` callable from `cmd.exe` or PowerShell, use the included
+Windows wrapper:
+
+```powershell
+# Clone the repository into Codex's config area
+git clone https://github.com/hdphuc201/codex-account "$HOME/.codex/.codex-account"
+
+# Create a personal bin directory if you do not already have one
+New-Item -ItemType Directory -Force "$HOME/bin" | Out-Null
+
+# Copy the Windows launcher into that bin directory
+Copy-Item "$HOME/.codex/.codex-account/codex-account.cmd" "$HOME/bin/codex-account.cmd"
+```
+
+> [!IMPORTANT]
+> Make sure `$HOME\bin` is on your `PATH`, and make sure `bash` is available
+> from Git Bash / Git for Windows or WSL.
+
+If you do not want to add a wrapper, you can also run the script directly:
+
+```powershell
+bash "$HOME/.codex/.codex-account/codex-account.sh" help
+```
 
 ## Quick Start
 
