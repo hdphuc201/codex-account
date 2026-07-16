@@ -35,33 +35,76 @@ ln -sfn ~/.codex/.codex-account/codex-account.sh ~/.local/bin/codex-account
 
 ### Windows
 
-This project is implemented as a Bash script. On Windows, use one of these:
+This project supports two environments:
 
-- Git Bash from Git for Windows
-- WSL
+- **Git Bash** (recommended if you use Codex on Windows)
+- **WSL** (recommended if you use Codex inside Linux)
 
-To make `codex-account` callable from `cmd.exe` or PowerShell, use the included
-Windows wrapper:
+> [!WARNING]
+> Do **not** mix Windows and WSL installations of Codex.
+>
+> Each environment should have its own:
+>
+> - Node.js
+> - npm
+> - Codex CLI
+> - `~/.codex/auth.json`
+>
+> Otherwise you may encounter issues such as:
+>
+> - `node: not found`
+> - `which codex` pointing to the Windows installation while running inside WSL
+> - `codex-account current` reporting no active account
+> - Switching accounts having no effect because WSL and Windows are using different auth files.
+
+### Option 1 — Git Bash
 
 ```powershell
-# Clone the repository into Codex's config area
 git clone https://github.com/hdphuc201/codex-account "$HOME/.codex/.codex-account"
 
-# Create a personal bin directory if you do not already have one
 New-Item -ItemType Directory -Force "$HOME/bin" | Out-Null
 
-# Copy the Windows launcher into that bin directory
 Copy-Item "$HOME/.codex/.codex-account/codex-account.cmd" "$HOME/bin/codex-account.cmd"
 ```
 
-> [!IMPORTANT]
-> Make sure `$HOME\bin` is on your `PATH`, and make sure `bash` is available
-> from Git Bash / Git for Windows or WSL.
+Make sure:
 
-If you do not want to add a wrapper, you can also run the script directly:
+- `$HOME\bin` is on your `PATH`
+- Git Bash is installed
 
-```powershell
-bash "$HOME/.codex/.codex-account/codex-account.sh" help
+---
+
+### Option 2 — WSL
+
+Clone the repository:
+
+```bash
+git clone https://github.com/hdphuc201/codex-account ~/.codex/.codex-account
+
+mkdir -p ~/.local/bin
+
+ln -sfn ~/.codex/.codex-account/codex-account.sh ~/.local/bin/codex-account
+
+chmod +x ~/.codex/.codex-account/codex-account.sh
+```
+
+If `codex-account` is not found:
+
+```bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+Verify:
+
+```bash
+which codex-account
+```
+
+Expected:
+
+```text
+/home/<user>/.local/bin/codex-account
 ```
 
 ## Quick Start
